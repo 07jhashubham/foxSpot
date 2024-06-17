@@ -10,7 +10,7 @@ export default class Fox {
     this.debug = this.exp.debug;
 
     //debug
-    this.debugFolder = this.debug.ui.addFolder("Fox");
+    if (this.debug.active) this.debugFolder = this.debug.ui.addFolder("Fox");
 
     this.modelsrc = this.resources.items.foxModel;
 

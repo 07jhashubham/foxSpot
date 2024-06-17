@@ -4,6 +4,10 @@ export default class Environment {
   constructor() {
     this.exp = new Experiance();
     this.resource = this.exp.resource;
+    this.debug = this.exp.debug;
+
+    if (this.debug.active)
+      this.debugFolder = this.debug.ui.addFolder("Enviroment");
 
     this.scene = this.exp.scene;
     this.sunlight();
@@ -20,6 +24,15 @@ export default class Environment {
 
     this.sunDirectionLight.shadow.mapSize.set(1024, 1024);
     this.scene.add(this.sunDirectionLight);
+
+    if (this.debug.active) {
+      this.debugFolder
+        .add(this.sunDirectionLight, "intensity")
+        .max(10)
+        .min(0.2)
+        .step(0.0001)
+        .name("LightIntensity");
+    }
   }
   setEnviroment() {
     this.enviromentMap = {};
@@ -41,5 +54,12 @@ export default class Environment {
       });
     };
     this.enviromentMap.updateMaterail();
+    this.debugFolder
+      .add(this.enviromentMap, "intensity")
+      .max(10)
+      .min(0.2)
+      .step(0.0001)
+      .name("enviromentLight")
+      .onFinishChange(this.enviromentMap.updateMaterail());
   }
 }
